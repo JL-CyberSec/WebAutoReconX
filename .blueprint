@@ -1,0 +1,43 @@
+created:
+    - database/factories/ProjectFactory.php
+    - database/factories/PentestingFactory.php
+    - database/factories/ScanFactory.php
+    - database/factories/LocalHostFactory.php
+    - database/factories/NetworkInterfaceFactory.php
+    - database/factories/FirewallFactory.php
+    - database/factories/HostFactory.php
+    - database/factories/PortFactory.php
+    - database/factories/PublicFileFactory.php
+    - database/factories/DetailFactory.php
+    - database/migrations/2024_09_08_025940_create_projects_table.php
+    - database/migrations/2024_09_08_025941_create_pentestings_table.php
+    - database/migrations/2024_09_08_025942_create_scans_table.php
+    - database/migrations/2024_09_08_025943_create_local_hosts_table.php
+    - database/migrations/2024_09_08_025944_create_network_interfaces_table.php
+    - database/migrations/2024_09_08_025945_create_firewalls_table.php
+    - database/migrations/2024_09_08_025946_create_hosts_table.php
+    - database/migrations/2024_09_08_025947_create_ports_table.php
+    - database/migrations/2024_09_08_025948_create_public_files_table.php
+    - database/migrations/2024_09_08_025949_create_details_table.php
+    - app/Models/Project.php
+    - app/Models/Pentesting.php
+    - app/Models/Scan.php
+    - app/Models/LocalHost.php
+    - app/Models/NetworkInterface.php
+    - app/Models/Firewall.php
+    - app/Models/Host.php
+    - app/Models/Port.php
+    - app/Models/PublicFile.php
+    - app/Models/Detail.php
+models:
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    Project: { title: string, description: 'nullable longtext', softdeletes: softDeletes }
+    Pentesting: { title: string, description: 'nullable longtext', softdeletes: softDeletes, relationships: { belongsTo: Project } }
+    Scan: { type: 'enum:blackbox, whitebox', nmap_timing: 'enum:1,2,3,4,5', softdeletes: softDeletes, relationships: { belongsTo: Pentesting } }
+    LocalHost: { operative_system: longtext, softdeletes: softDeletes, relationships: { belongsTo: Scan } }
+    NetworkInterface: { name: string, softdeletes: softDeletes, relationships: { belongsTo: LocalHost } }
+    Firewall: { detail: longtext, relationships: { belongsTo: LocalHost } }
+    Host: { ip: string, has_http: boolean, relationships: { belongsTo: Scan } }
+    Port: { number: int, relationships: { belongsTo: Host } }
+    PublicFile: { uri: string, relationships: { belongsTo: Host } }
+    Detail: { title: string, value: string, detailable_id: int, detailable_type: string }
