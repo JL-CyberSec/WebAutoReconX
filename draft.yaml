@@ -1,0 +1,63 @@
+models:
+  Project:
+    title: string
+    description: nullable longtext
+    softDeletes
+
+  Pentesting:
+    title: string
+    status: enum:enumeration,vulnerabilities,exploitation,inform
+    description: nullable longtext
+    softDeletes
+    relationships:
+      belongsTo: Project
+
+  Scan:
+    type: enum:blackbox, whitebox
+    nmap_timing: enum:1,2,3,4,5
+    softDeletes
+    relationships:
+      belongsTo: Pentesting
+
+  LocalHost:
+    operative_system: longtext
+    softDeletes
+    relationships:
+      belongsTo: Scan
+
+  # Has Details
+  NetworkInterface:
+    name: string
+    softDeletes
+    relationships:
+      belongsTo: LocalHost
+
+  Firewall:
+    detail: longtext
+    relationships:
+      belongsTo: LocalHost
+
+  # Has Details
+  Host:
+    ip: string
+    has_http: boolean
+    relationships:
+      belongsTo: Scan
+
+  # Has Details
+  Port:
+    number: int
+    relationships:
+      belongsTo: Host
+
+  # Has Details
+  PublicFile:
+    uri: string
+    relationships:
+      belongsTo: Host
+
+  Detail:
+    title: string
+    value: string
+    detailable_id: int
+    detailable_type: string
