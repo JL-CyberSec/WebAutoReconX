@@ -6,7 +6,6 @@ models:
 
   Pentesting:
     title: string
-    status: enum:enumeration,vulnerabilities,exploitation,inform
     description: nullable longtext
     softDeletes
     relationships:
