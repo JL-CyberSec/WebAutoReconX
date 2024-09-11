@@ -5,6 +5,7 @@ namespace App\Models;
 use Filament\Forms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
@@ -29,6 +30,21 @@ class Project extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    /**
+     * Get all of the pentestings for the Project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pentestings(): HasMany
+    {
+        return $this->hasMany(Pentesting::class);
+    }
+
+    public function getCountPentestingsAttribute(): int
+    {
+        return $this->pentestings()->count();
+    }
 
     public static function getForm(): array
     {
