@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\NmapTiming;
+use App\Enums\ScanType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +33,21 @@ class Scan extends Model
         'id' => 'integer',
         'pentesting_id' => 'integer',
     ];
+
+    public function getNameTypeAttribute(): string
+    {
+        return ScanType::toArray()[$this->type];
+    }
+
+    public function getNameNmapTimingAttribute($value): string
+    {
+        return NmapTiming::toArray()[$this->nmap_timing];
+    }
+
+    public function getNamePentestingAttribute(): string
+    {
+        return $this->pentesting->title;
+    }
 
     public function pentesting(): BelongsTo
     {
