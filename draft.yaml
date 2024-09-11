@@ -13,8 +13,8 @@ models:
       belongsTo: Project
 
   Scan:
-    type: enum:blackbox, whitebox
-    nmap_timing: enum:1,2,3,4,5
+    type: enum:blackbox,whitebox
+    nmap_timing: enum:0,1,2,3,4,5
     softDeletes
     relationships:
       belongsTo: Pentesting

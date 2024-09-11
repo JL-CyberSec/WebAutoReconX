@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('scans', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ["blackbox",""]);
-            $table->enum('nmap_timing', ["1","2","3","4","5"]);
+            $table->enum('type', ["blackbox","whitebox"]);
+            $table->enum('nmap_timing', ["0","1","2","3","4","5"]);
             $table->foreignId('pentesting_id');
             $table->timestamps();
             $table->softDeletes();
