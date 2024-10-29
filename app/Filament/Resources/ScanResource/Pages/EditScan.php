@@ -14,21 +14,6 @@ class EditScan extends EditRecord
 {
     protected static string $resource = ScanResource::class;
 
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('type')
-                    ->options(ScanType::toArray())
-                    ->required(),
-                Forms\Components\Select::make('nmap_timing')
-                    ->options(NmapTiming::toArray())
-                    ->required(),
-                Forms\Components\Hidden::make('pentesting_id')
-                    ->default(request()->route()->parameter('pentestingId')),
-            ]);
-    }
-
     protected function getHeaderActions(): array
     {
         return [

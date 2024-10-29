@@ -16,13 +16,15 @@ class ViewScan extends ViewRecord
     public function infolist(Infolist $infolist): Infolist
     {
         return $infolist
-        ->schema([
-            Section::make()->schema([
-                Infolists\Components\TextEntry::make('name_type'),
-                Infolists\Components\TextEntry::make('name_nmap_timing'),
-                Infolists\Components\TextEntry::make('name_pentesting')
-            ])->columns(3)
-        ]);
+            ->schema([
+                Section::make()->schema([
+                    Infolists\Components\TextEntry::make('pentesting.title'),
+                    Infolists\Components\TextEntry::make('name_type')
+                        ->label('Type'),
+                    Infolists\Components\TextEntry::make('name_nmap_timing')
+                        ->label('Nmap timing'),
+                ])->columns(3)
+            ]);
     }
 
     protected function getHeaderActions(): array

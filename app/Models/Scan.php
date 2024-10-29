@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Filament\Forms;
 
 class Scan extends Model
 {
@@ -39,18 +40,32 @@ class Scan extends Model
         return ScanType::toArray()[$this->type];
     }
 
-    public function getNameNmapTimingAttribute($value): string
+    public function getNameNmapTimingAttribute(): string
     {
         return NmapTiming::toArray()[$this->nmap_timing];
-    }
-
-    public function getNamePentestingAttribute(): string
-    {
-        return $this->pentesting->title;
     }
 
     public function pentesting(): BelongsTo
     {
         return $this->belongsTo(Pentesting::class);
+    }
+
+    public static function getForm(?int $pentestingId = null): array
+    {
+        return [
+            Forms\Components\Select::make('pentesting_id')
+                ->relationship('pentesting', 'title')
+                ->createOptionForm(Pentesting::getForm())
+                ->editOptionForm(Pentesting::getForm())
+                ->required()
+                ->disabled(!empty($pentestingId))
+                ->default($pentestingId),
+            Forms\Components\Select::make('type')
+                ->options(ScanType::toArray())
+                ->required(),
+            Forms\Components\Select::make('nmap_timing')
+                ->options(NmapTiming::toArray())
+                ->required(),
+        ];
     }
 }

@@ -18,6 +18,8 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-light-bulb';
 
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form->schema(Project::getForm());
@@ -28,12 +30,20 @@ class ProjectResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('count_pentestings')
                     ->label('Pentestings')
-                    ->sortable(),
+                    ->sortable()
+                    ->color('success')
+                    ->url(function (Project $record) {
+                        return route('filament.admin.resources.pentestings.index', [
+                            'projectId' => $record->id,
+                        ]);
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

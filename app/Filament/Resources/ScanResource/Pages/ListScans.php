@@ -28,7 +28,7 @@ class ListScans extends ListRecords
         $hasPentesting = !empty($pentestingId);
 
         if ($hasPentesting) {
-            $pentesting = Pentesting::find($pentestingId);
+            $pentesting = Pentesting::findOrFail($pentestingId);
             return "Scans of {$pentesting->title}";
         }
 

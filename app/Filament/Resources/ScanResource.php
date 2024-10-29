@@ -16,20 +16,13 @@ class ScanResource extends Resource
 {
     protected static ?string $model = Scan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-magnifying-glass';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('type')
-                    ->required(),
-                Forms\Components\TextInput::make('nmap_timing')
-                    ->required(),
-                Forms\Components\Select::make('pentesting_id')
-                    ->relationship('pentesting', 'title')
-                    ->required(),
-            ]);
+        return $form->schema(Scan::getForm(request()->route()->parameter('pentestingId')));
     }
 
     public static function table(Table $table): Table
@@ -38,13 +31,15 @@ class ScanResource extends Resource
 
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_type')
-                    ->label('Type'),
-                Tables\Columns\TextColumn::make('name_nmap_timing')
-                    ->label('Timing'),
                 Tables\Columns\TextColumn::make('pentesting.title')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: $hasPentesting),
+                Tables\Columns\TextColumn::make('name_type')
+                    ->label('Type')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('name_nmap_timing')
+                    ->label('Timing')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -84,7 +79,7 @@ class ScanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListScans::route('/{pentestingId?}'),
+            'index' => Pages\ListScans::route('/list/{pentestingId?}'),
             'create' => Pages\CreateScan::route('/create/{pentestingId?}'),
             'view' => Pages\ViewScan::route('/{record}/view'),
             'edit' => Pages\EditScan::route('/{record}/edit'),
