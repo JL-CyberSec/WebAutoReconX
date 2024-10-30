@@ -1,5 +1,5 @@
 # Use the official PHP image with FPM
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -13,6 +13,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo_mysql mysqli zip intl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js and npm
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
+&& apt-get install -y nodejs
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --2

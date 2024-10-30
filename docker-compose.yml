@@ -10,6 +10,10 @@ services:
       - ./:/var/www
     expose:
       - "9000"
+    depends_on:
+      - fastapi
+    networks:
+      - internal_network
 
   nginx:
     image: nginx:alpine
@@ -21,6 +25,8 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - php
+    networks:
+      - internal_network
 
   mysql:
     image: mysql:8.0
@@ -32,6 +38,8 @@ services:
     volumes:
       - ./docker/db/volumes:/var/lib/mysql
       - ./docker/db/init:/docker-entrypoint-initdb.d
+    networks:
+      - internal_network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -43,3 +51,18 @@ services:
       - PMA_PORT=3306
     depends_on:
       - mysql
+    networks:
+      - internal_network
+
+  fastapi:
+    build:
+        context: ./fastapi
+    container_name: webreconx_fastapi
+    expose:
+      - "8000"
+    networks:
+      - internal_network
+
+networks:
+  internal_network:
+    driver: bridge
