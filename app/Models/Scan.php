@@ -23,6 +23,7 @@ class Scan extends Model
         'type',
         'nmap_timing',
         'pentesting_id',
+        'ip'
     ];
 
     /**
@@ -65,6 +66,9 @@ class Scan extends Model
                 ->required(),
             Forms\Components\Select::make('nmap_timing')
                 ->options(NmapTiming::toArray())
+                ->required(),
+            Forms\Components\TextInput::make('ip')
+                ->telRegex('/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})$/')
                 ->required(),
         ];
     }

@@ -9,5 +9,5 @@ enum ScanType: string
     use Enum;
 
     case BlackBox = 'blackbox';
-    case WhiteBox = 'whitebox';
+    //case WhiteBox = 'whitebox';
 }

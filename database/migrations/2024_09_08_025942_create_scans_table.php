@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('type', ["blackbox","whitebox"]);
             $table->enum('nmap_timing', ["0","1","2","3","4","5"]);
+            $table->string('ip');
             $table->foreignId('pentesting_id');
             $table->timestamps();
             $table->softDeletes();

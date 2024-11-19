@@ -14,6 +14,7 @@ models:
   Scan:
     type: enum:blackbox,whitebox
     nmap_timing: enum:0,1,2,3,4,5
+    ip: string
     softDeletes
     relationships:
       belongsTo: Pentesting
