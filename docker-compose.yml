@@ -54,18 +54,6 @@ services:
     networks:
       - internal_network
 
-  fastapi:
-    build:
-        context: ./fastapi  # Make sure this is pointing to the correct directory
-    container_name: webreconx_fastapi
-    volumes:
-      - ./fastapi:/app  # Mount the local `fastapi` directory to `/app` in the container
-    expose:
-        - "8000"
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload  # Enable live reload
-    networks:
-        - internal_network
-
 networks:
   internal_network:
     driver: bridge
