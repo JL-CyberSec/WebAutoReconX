@@ -20,7 +20,6 @@ class Scan extends Model
      * @var array
      */
     protected $fillable = [
-        'type',
         'nmap_timing',
         'pentesting_id',
         'ip'
@@ -35,11 +34,6 @@ class Scan extends Model
         'id' => 'integer',
         'pentesting_id' => 'integer',
     ];
-
-    public function getNameTypeAttribute(): string
-    {
-        return ScanType::toArray()[$this->type];
-    }
 
     public function getNameNmapTimingAttribute(): string
     {
@@ -61,14 +55,8 @@ class Scan extends Model
                 ->required()
                 ->disabled(!empty($pentestingId))
                 ->default($pentestingId),
-            Forms\Components\Select::make('type')
-                ->options(ScanType::toArray())
-                ->required(),
             Forms\Components\Select::make('nmap_timing')
                 ->options(NmapTiming::toArray())
-                ->required(),
-            Forms\Components\TextInput::make('ip')
-                ->telRegex('/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|\d{1,2})$/')
                 ->required(),
         ];
     }

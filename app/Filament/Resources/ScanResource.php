@@ -34,12 +34,8 @@ class ScanResource extends Resource
                 Tables\Columns\TextColumn::make('pentesting.title')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: $hasPentesting),
-                Tables\Columns\TextColumn::make('name_type')
-                    ->label('Type')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name_nmap_timing')
-                    ->label('Timing')
-                    ->sortable(),
+                    ->label('Timing'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
