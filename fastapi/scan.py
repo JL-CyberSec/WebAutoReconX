@@ -122,9 +122,8 @@ def parse_iptables(output):
 
 http_hosts = []
 
-def get_hosts():
+def get_hosts(scan_timing: int):
     data = {}
-    scan_timing = 3
     active_ip_addresses = get_active_ip_addresses()
 
     if active_ip_addresses:

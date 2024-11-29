@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   php:
     build:
@@ -10,10 +8,19 @@ services:
       - ./:/var/www
     expose:
       - "9000"
-    depends_on:
-      - fastapi
     networks:
       - internal_network
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webreconx_worker
+    volumes:
+      - ./:/var/www
+    networks:
+      - internal_network
+    command: php artisan queue:work
 
   nginx:
     image: nginx:alpine
@@ -54,6 +61,22 @@ services:
     networks:
       - internal_network
 
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+
 networks:
   internal_network:
     driver: bridge
+
+volumes:
+  mongo_data:
+  mongo_config:

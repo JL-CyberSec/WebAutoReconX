@@ -15,6 +15,6 @@ def get_interfaces():
 def get_firewall():
     return scan.get_firewall()
 
-@app.get("/hosts")
-def get_hosts():
-    return scan.get_hosts()
+@app.get("/hosts/{timing}")
+def get_hosts(timing: int):
+    return scan.get_hosts(timing)

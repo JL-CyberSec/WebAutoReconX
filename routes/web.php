@@ -15,22 +15,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function() {
-    // $url = env('FAST_API_URL') . "/system-info";
+    // $url = config('scan.fastapi_uri') . "/system-info";
     // $response = Http::get($url);
     // $data = $response->json();
     // dd($data);
 
-    // $url = env('FAST_API_URL') . "/interfaces";
+    // $url = config('scan.fastapi_uri') . "/interfaces";
     // $response = Http::get($url);
     // $data = $response->json();
     // dd($data);
 
-    // $url = env('FAST_API_URL') . "/firewall";
+    // $url = config('scan.fastapi_uri') . "/firewall";
     // $response = Http::get($url);
     // $data = $response->json();
     // dd($data);
 
-    $url = env('FAST_API_URL') . "/hosts";
+    $url = config('scan.fastapi_uri') . "/hosts/5";
     $response = Http::timeout(120)->get($url);
     $data = $response->json();
     dd($data);
