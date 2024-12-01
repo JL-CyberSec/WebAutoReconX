@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\NmapTiming;
-use App\Enums\ScanType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +21,7 @@ class Scan extends Model
     protected $fillable = [
         'nmap_timing',
         'pentesting_id',
-        'ip'
+        'status',
     ];
 
     /**
@@ -59,5 +58,15 @@ class Scan extends Model
                 ->options(NmapTiming::toArray())
                 ->required(),
         ];
+    }
+
+    public function incrementStatus(): void
+    {
+        $this->update(['status' => $this->status + 1]);
+    }
+
+    public function getProgressAttribute(): string
+    {
+        return $this->status . '/' . count(config('scan.endpoints'));
     }
 }

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('scans', function (Blueprint $table) {
-            $table->enum('status', ["0","1","2","3","4","5"])->after('pentesting_id')->default("0");
+            $table->tinyInteger('status')->unsigned()->after('pentesting_id')->default(0);
         });
     }
 

@@ -85,7 +85,7 @@ def is_vpn(interface_name):
 def get_firewall():
     output = get_iptables()
     parsed_rules = parse_iptables(output)
-    return json.dumps(parsed_rules, indent=2)
+    return parsed_rules
 
 def get_iptables():
     result = subprocess.run(["sudo", "iptables", "-L"], capture_output=True, text=True)
@@ -102,8 +102,8 @@ def parse_iptables(output):
             current_chain = {
                 "name": parts[1],
                 "policy": parts[3],
-                "packets": parts[4],
-                "bytes": parts[6],
+                "packets": parts[4] if 0 <= 4 < len(parts) else None,
+                "bytes": parts[6] if 0 <= 6 < len(parts) else None,
                 "rules": []
             }
             chains.append(current_chain)

@@ -19,10 +19,9 @@ class ViewScan extends ViewRecord
             ->schema([
                 Section::make()->schema([
                     Infolists\Components\TextEntry::make('pentesting.title'),
-                    Infolists\Components\TextEntry::make('name_type')
-                        ->label('Type'),
                     Infolists\Components\TextEntry::make('name_nmap_timing')
                         ->label('Nmap timing'),
+                    Infolists\Components\TextEntry::make('progress'),
                 ])->columns(3)
             ]);
     }

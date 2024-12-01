@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ScanResource\Pages;
 use App\Models\Scan;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -36,6 +35,7 @@ class ScanResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: $hasPentesting),
                 Tables\Columns\TextColumn::make('name_nmap_timing')
                     ->label('Timing'),
+                Tables\Columns\TextColumn::make('progress'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -54,7 +54,6 @@ class ScanResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -62,7 +61,8 @@ class ScanResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->poll('5s');
     }
 
     public static function getRelations(): array

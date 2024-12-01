@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\ScanResource\Pages;
 
 use App\Filament\Resources\ScanResource;
-use App\Jobs\JobScan;
+use App\Jobs\RunScan;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateScan extends CreateRecord
@@ -12,6 +12,6 @@ class CreateScan extends CreateRecord
 
     protected function afterCreate(): void
     {
-        JobScan::dispatch($this->record);
+        RunScan::dispatch($this->record);
     }
 }
