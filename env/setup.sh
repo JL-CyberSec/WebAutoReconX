@@ -14,7 +14,7 @@ else
     echo "Operative system not supported: $OS"
 fi
 
-docker compose up -d
+docker compose up -d $1
 
 cd fastapi
 

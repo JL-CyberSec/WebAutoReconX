@@ -70,11 +70,15 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./docker/mongo/data:/data/db
-      - ./docker/mongo/config:/data/configdb
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
     networks:
       - internal_network
 
 networks:
   internal_network:
     driver: bridge
+
+volumes:
+  mongo_data:
+  mongo_config:

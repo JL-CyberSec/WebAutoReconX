@@ -25,7 +25,7 @@ Navigate to the project directory and run the following command to build and sta
 $ cd WebAutoReconX
 ```
 
-Create the .env file
+Set up the entire environment
 ```
 $ sh env/setup.sh
 ```
