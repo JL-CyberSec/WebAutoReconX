@@ -21,6 +21,11 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --2
 
+#Install Mongo driver
+RUN apt-get update -y && apt-get upgrade -y \
+    && pecl install mongodb 
+RUN docker-php-ext-enable mongodb
+
 # Copy custom php.ini
 COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
 

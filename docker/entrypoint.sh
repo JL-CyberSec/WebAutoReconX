@@ -16,7 +16,7 @@ else
 fi
 
 if [ "$EXECUTE_QUEUE_WORK" = "true" ]; then
-    php artisan queue:work
+    php artisan queue:work --timeout=0
 else
     php artisan migrate
 fi

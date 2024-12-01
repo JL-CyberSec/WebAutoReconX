@@ -27,7 +27,7 @@ $ cd WebAutoReconX
 
 Create the .env file
 ```
-$ sudo env/setup.sh
+$ sh env/setup.sh
 ```
 
 Wait a couple of seconds and go to http://localhost:8001 😀

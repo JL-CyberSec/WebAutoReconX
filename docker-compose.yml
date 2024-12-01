@@ -67,19 +67,14 @@ services:
   mongo:
     image: mongo:latest
     container_name: webreconx_mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db
-      - mongo_config:/data/configdb
+      - ./docker/mongo/data:/data/db
+      - ./docker/mongo/config:/data/configdb
+    networks:
+      - internal_network
 
 networks:
   internal_network:
     driver: bridge
-
-volumes:
-  mongo_data:
-  mongo_config:
