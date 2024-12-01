@@ -27,22 +27,7 @@ $ cd WebAutoReconX
 
 Create the .env file
 ```
-$ cp .env.example .env
-```
-
-Replace the following variables in the .env file
-```
-DB_CONNECTION=mysql
-DB_HOST=webreconx_db
-DB_PORT=3306
-DB_DATABASE=webreconx_db
-DB_USERNAME=root
-DB_PASSWORD=webreconx
-```
-
-This will construct the nginx and php container
-```
-docker compose up -d --build --remove-orphans
+$ sudo env/setup.sh
 ```
 
 Wait a couple of seconds and go to http://localhost:8001 😀

@@ -34,6 +34,9 @@ WORKDIR /var/www
 # Copy source files and set ownership
 COPY --chown=www:www . /var/www
 
+# Change ownership of storage directory
+RUN chown -R www:www /var/www/storage
+
 # Change to the application user
 USER www
 
