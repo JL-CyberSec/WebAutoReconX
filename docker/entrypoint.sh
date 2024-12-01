@@ -15,7 +15,11 @@ else
     echo "Composer dependencies already installed."
 fi
 
-php artisan migrate
+if [ "$EXECUTE_QUEUE_WORK" = "true" ]; then
+    php artisan queue:work
+else
+    php artisan migrate
+fi
 
 # Start PHP-FPM
 exec php-fpm

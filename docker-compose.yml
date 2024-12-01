@@ -16,11 +16,14 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: webreconx_worker
+    depends_on:
+      - php
     volumes:
       - ./:/var/www
     networks:
       - internal_network
-    command: php artisan queue:work
+    environment:
+      - EXECUTE_QUEUE_WORK=true
 
   nginx:
     image: nginx:alpine
