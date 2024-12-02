@@ -51,6 +51,9 @@ class ViewScan extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\DeleteAction::make(),
+            Actions\ForceDeleteAction::make(),
+            Actions\RestoreAction::make(),
             Actions\Action::make('Refresh')
                 ->icon('heroicon-o-arrow-path'),
         ];
