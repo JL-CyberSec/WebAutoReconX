@@ -16,6 +16,8 @@ class RunScan implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $timeout = 0;
+
     /**
      * Create a new job instance.
      */
@@ -37,14 +39,14 @@ class RunScan implements ShouldQueue
             $endpoint = str_replace('{timing}', $this->scan->nmap_timing, $endpoint);
 
             $response = Http::timeout(0)->get("$fastapiUri/$endpoint");
-            $data = $response->json();
 
+            $data = $response->json();
             $data['type'] = $key;
             $data['scan_id'] = $this->scan->id;
             $data['recommendations'] = $openAI->chat(json_encode($data));
 
             ScanResult::create($data);
-            
+
             $this->scan->incrementStatus();
         }
     }

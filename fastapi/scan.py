@@ -123,39 +123,59 @@ def parse_iptables(output):
 http_hosts = []
 
 def get_hosts(scan_timing: int):
-    data = {}
     active_ip_addresses = get_active_ip_addresses()
 
-    if active_ip_addresses:
-        for ip in active_ip_addresses:
-            data[ip] = {
-                'devices_found': {}
-            }
-
-            nm = nmap.PortScanner()
-            structured_hosts = {}
-
-            nm.scan(hosts=f"{ip}/24", arguments=f"-T{scan_timing} -sP")
-
-            for host in nm.all_hosts():
-                if host not in data[ip]['devices_found']:
-                    data[ip]['devices_found'][host] = {}
-
-            for host in data[ip]['devices_found']:
-                #data[ip]['devices_found'][host] = {}
-
-                nm.scan(hosts=host, arguments=f"-T{scan_timing} -O -sV")
-
-                for _host in nm.all_hosts():
-                    data[ip]['devices_found'][host]['host_status'] = nm[_host].state()
-                    data[ip]['devices_found'][host]['hostname'] = nm[_host].hostname() if nm[_host].hostname() else 'Unknown'
-
-        #if http_hosts:
-            #files.show(http_hosts)
-    else:
+    if not active_ip_addresses:
         return {'message': "No active IP addresses found with connection."}
 
-    return data
+    nm = nmap.PortScanner()
+    devices_found = []
+    structured_host = {}
+
+    active_ip_addresses.remove('127.0.0.1')
+
+    for ip in active_ip_addresses:
+        nm.scan(hosts=f"{ip}/24", arguments=f"-T{scan_timing} -sP")
+        hosts = nm.all_hosts()[:2]
+
+        for host in hosts:
+            if host not in devices_found:
+                devices_found.append(host)
+
+        for host in devices_found:
+            structured_host[host] = {}
+            nm.scan(hosts=host, arguments=f"-T{scan_timing} -O -sV")
+
+            for _host in nm.all_hosts()[:2]:
+                structured_host[host]['status'] = nm[_host].state()
+                structured_host[host]['hostname'] = nm[_host].hostname() if nm[_host].hostname() else 'Unknown'
+
+                if 'addresses' in nm[_host] and 'mac' in nm[_host]['addresses']:
+                    structured_host[host]['mac'] = nm[_host]['addresses']['mac'].upper()
+
+                if 'osmatch' in nm[_host]:
+                    for os in nm[_host]['osmatch']:
+                        structured_host[host]['os_name'] = os['name']
+                        structured_host[host]['os_accuracy'] = os['accuracy']
+
+                structured_host[host]['protocol'] = {}
+
+                if nm[_host].all_protocols():
+                    for protocol in nm[_host].all_protocols():
+                        structured_host[host]['protocol'][protocol] = {}
+                        structured_host[host]['protocol'][protocol]['ports'] = {}
+
+                        port_info = nm[_host][protocol]
+                        sorted_ports = sorted(port_info.keys())
+
+                        for port in sorted_ports:
+                            structured_host[host]['protocol'][protocol]['ports'][port] = {
+                                'state': port_info[port]['state'],
+                                'service': port_info[port]['name'],
+                                'version': port_info[port]['version'] if port_info[port]['version'] else '',
+                            }
+
+    return {"data": structured_host}
 
 def get_active_ip_addresses():
     active_ips = []

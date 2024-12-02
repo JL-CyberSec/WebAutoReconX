@@ -33,7 +33,7 @@ Route::get('/test', function() {
     // dd($data);
 
     $url = "$fastapiUri/hosts/5";
-    $response = Http::timeout(120)->get($url);
+    $response = Http::timeout(0)->get($url);
     $data = $response->json();
     dd($data);
 });
