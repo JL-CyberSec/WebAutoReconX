@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use App\Services\OpenAI;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,23 +18,30 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', function() {
     $fastapiUri = config('scan.fastapi_uri');
 
-    // $url = "$fastapiUri/system-info";
-    // $response = Http::get($url);
-    // $data = $response->json();
-    // dd($data);
+    $openAI = new OpenAI;
 
-    // $url = "$fastapiUri/interfaces";
-    // $response = Http::get($url);
-    // $data = $response->json();
-    // dd($data);
+    $url = "$fastapiUri/system-info";
+    $response = Http::get($url);
+    $data = $response->json();
+    dump($data);
+    dump($openAI->chat(json_encode($data)));
 
-    // $url = "$fastapiUri/firewall";
-    // $response = Http::get($url);
-    // $data = $response->json();
-    // dd($data);
+    $url = "$fastapiUri/interfaces";
+    $response = Http::get($url);
+    $data = $response->json();
+    dump($data);
+    dump($openAI->chat(json_encode($data)));
+
+    $url = "$fastapiUri/firewall";
+    $response = Http::get($url);
+    $data = $response->json();
+    dump($data);
+    dump($openAI->chat(json_encode($data)));
 
     $url = "$fastapiUri/hosts/5";
     $response = Http::timeout(0)->get($url);
     $data = $response->json();
-    dd($data);
+    dump($data);
+    dump($openAI->chat(json_encode($data)));
+
 });

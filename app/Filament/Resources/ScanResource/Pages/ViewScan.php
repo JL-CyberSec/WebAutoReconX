@@ -8,6 +8,7 @@ use Filament\Resources\Pages\ViewRecord;
 use Filament\Infolists;
 use Filament\Infolists\Components\Section;
 use Filament\Actions;
+use App\View\Components\TextEntryJson;
 
 class ViewScan extends ViewRecord
 {
@@ -34,13 +35,14 @@ class ViewScan extends ViewRecord
 
             $sections[] = Section::make($type)
                 ->schema([
-                    Infolists\Components\TextEntry::make('details')
+                    TextEntryJson::make('details')
                         ->getStateUsing($result->toJson(JSON_PRETTY_PRINT))
-                        ->columnSpan(2),
+                        ->columnSpan(3),
                     Infolists\Components\TextEntry::make('recommendations')
                         ->getStateUsing($recommendations)
+                        ->columnSpan(2),
                 ])
-                ->columns(3)
+                ->columns(5)
                 ->collapsible()
                 ->collapsed();
         }
