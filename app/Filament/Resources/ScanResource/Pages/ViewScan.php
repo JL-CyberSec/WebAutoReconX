@@ -29,7 +29,7 @@ class ViewScan extends ViewRecord
 
         foreach ($results as $result) {
             $type = $result->type;
-            unset($result->_id, $result->scan_id, $result->type);
+            unset($result->_id, $result->scan_id, $result->type, $result->recommendations);
 
             $sections[] = Section::make($type)
                 ->schema([
