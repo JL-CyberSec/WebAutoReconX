@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('scans', function (Blueprint $table) {
             $table->tinyInteger('status')->unsigned()->after('pentesting_id')->default(0);
+            $table->tinyInteger('steps')->unsigned()->after('status')->default(0);
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('scans', function (Blueprint $table) {
-            $table->dropColumn('status');
+            $table->dropColumn(['status', 'steps']);
         });
     }
 };

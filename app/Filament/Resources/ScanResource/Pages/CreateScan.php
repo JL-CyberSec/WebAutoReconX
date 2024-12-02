@@ -12,6 +12,10 @@ class CreateScan extends CreateRecord
 
     protected function afterCreate(): void
     {
+        $this->record->update([
+            'steps' => count(config('scan.endpoints'))
+        ]);
+
         RunScan::dispatch($this->record);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Filament\Forms;
+use Illuminate\Database\Eloquent\Collection;
 
 class Scan extends Model
 {
@@ -22,6 +23,7 @@ class Scan extends Model
         'nmap_timing',
         'pentesting_id',
         'status',
+        'steps'
     ];
 
     /**
@@ -67,6 +69,11 @@ class Scan extends Model
 
     public function getProgressAttribute(): string
     {
-        return $this->status . '/' . count(config('scan.endpoints'));
+        return $this->status . '/' . $this->steps;
+    }
+
+    public function getResults(): Collection
+    {
+        return ScanResult::where('scan_id', $this->id)->get();
     }
 }

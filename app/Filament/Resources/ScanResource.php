@@ -78,7 +78,6 @@ class ScanResource extends Resource
             'index' => Pages\ListScans::route('/list/{pentestingId?}'),
             'create' => Pages\CreateScan::route('/create/{pentestingId?}'),
             'view' => Pages\ViewScan::route('/{record}/view'),
-            'edit' => Pages\EditScan::route('/{record}/edit'),
         ];
     }
 
