@@ -29,6 +29,7 @@ class ViewScan extends ViewRecord
 
         foreach ($results as $result) {
             $type = $result->type;
+            $recommendations = $result->recommendations;
             unset($result->_id, $result->scan_id, $result->type, $result->recommendations);
 
             $sections[] = Section::make($type)
@@ -37,7 +38,7 @@ class ViewScan extends ViewRecord
                         ->getStateUsing($result->toJson(JSON_PRETTY_PRINT))
                         ->columnSpan(2),
                     Infolists\Components\TextEntry::make('recommendations')
-                        ->getStateUsing($result->recommendations)
+                        ->getStateUsing($recommendations)
                 ])
                 ->columns(3)
                 ->collapsible()
