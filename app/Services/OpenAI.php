@@ -37,6 +37,8 @@ class OpenAI
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody(), true);
+
+        return $data['choices'][0]['message']['content'];
     }
 }
